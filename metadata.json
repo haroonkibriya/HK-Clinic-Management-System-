@@ -1,0 +1,6 @@
+{
+  "name": "HK Clinic Management System",
+  "description": "Android-first offline clinic management & prescription application with Urdu Nastaliq support, patient records, receipts, and letterhead printing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
