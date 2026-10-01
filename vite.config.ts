@@ -6,7 +6,7 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
   return {
-    base: '/HK-Clinic-Management-System/',
+    base: '/HK-Clinic-Management-System-/',
     plugins: [
       react(),
       tailwindcss(),
@@ -14,15 +14,15 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
         manifest: {
-          id: '/HK-Clinic-Management-System/',
+          id: '/HK-Clinic-Management-System-/',
           name: 'HK Clinic Management System',
           short_name: 'HK Clinic',
           description: 'Android-first offline clinic management & prescription application with Urdu Nastaliq support.',
           theme_color: '#0d9488',
           background_color: '#f8fafc',
           display: 'standalone',
-          start_url: '/HK-Clinic-Management-System/',
-          scope: '/HK-Clinic-Management-System/',
+          start_url: '/HK-Clinic-Management-System-/',
+          scope: '/HK-Clinic-Management-System-/',
           icons: [
             {
               src: 'pwa-192x192.png',

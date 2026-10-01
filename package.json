@@ -2,7 +2,7 @@
   "name": "hk-clinic-management-system",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://haroonkibriya.github.io/HK-Clinic-Management-System/",
+  "homepage": "https://haroonkibriya.github.io/HK-Clinic-Management-System-/",
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
