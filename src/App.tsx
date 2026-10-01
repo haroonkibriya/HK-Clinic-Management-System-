@@ -66,6 +66,7 @@ export default function App() {
   // Ensure database initialized
   useEffect(() => {
     initializeClinicDatabase();
+    refreshAllData();
   }, []);
 
   // Application Data States
@@ -314,6 +315,11 @@ export default function App() {
               feeReceipts={feeReceipts}
               procedureReceipts={procedureReceipts}
               appointments={appointments}
+              onDeletePatient={(pat) => {
+                PatientRepository.delete(pat.id, currentUserName);
+                setSelectedPatient(null);
+                refreshAllData();
+              }}
               isUrdu={isUrdu}
               role={currentRole}
               currentUser={currentUserName}
@@ -380,6 +386,16 @@ export default function App() {
                     setSelectedPatient(pat);
                     setReceiptEditorType('fee');
                     setShowReceiptEditor(true);
+                  }}
+                  onDeletePatient={(pat) => {
+                    PatientRepository.delete(pat.id, currentUserName);
+                    refreshAllData();
+                  }}
+                  onDeleteAllPatients={() => {
+                    PatientRepository.clearAll(currentUserName);
+                    setSelectedPatient(null);
+                    setViewingPrescription(null);
+                    refreshAllData();
                   }}
                   isUrdu={isUrdu}
                   role={currentRole}

@@ -336,345 +336,15 @@ const INITIAL_MEDICINES: MedicineCatalogEntry[] = [
   },
 ];
 
-const INITIAL_PATIENTS: Patient[] = [
-  {
-    id: 'pat-1',
-    mrNumber: 'HK-000001',
-    name: 'Muhammad Tariq',
-    fatherOrHusbandName: 'Abdul Rehman',
-    age: 48,
-    dob: '1978-04-12',
-    gender: 'Male',
-    phone: '+92 321 4455667',
-    whatsapp: '+923214455667',
-    address: 'House # 14, Street 3, Model Town',
-    city: 'Lahore',
-    email: 'tariq.rehman@example.com',
-    bloodGroup: 'B+',
-    emergencyContact: '+92 300 9876543 (Son - Hamza)',
-    registrationDate: '2026-09-15T09:30:00.000Z',
-    notes: 'Hypertensive for 4 years. Patient is compliant with treatment.',
-    allergies: ['Penicillin (mild rash)'],
-    medicalHistory: {
-      chiefComplaint: 'Headache & occasional dizziness for 3 days',
-      symptoms: 'Mild occipital headache, fatigue, blurred vision when fatigued',
-      pastMedicalHistory: 'Essential Hypertension diagnosed in 2022',
-      surgicalHistory: 'Appendectomy in 2011',
-      drugAllergies: 'Penicillin causes mild urticarial rash',
-      currentMedicines: 'Tab Concor 5mg 1 OD',
-      familyHistory: 'Father had Type 2 Diabetes; Mother had HTN',
-      socialHistory: 'Non-smoker, sedentary lifestyle',
-      examination: 'BP: 145/92 mmHg, Pulse: 78 bpm, Chest: Clear, Heart: S1 S2 normal',
-      diagnosis: 'Uncontrolled Hypertension, Tension-type Headache',
-      investigations: 'Serum Creatinine, Fasting Blood Sugar, Lipid Profile, ECG',
-      doctorNotes: 'Advised sodium restriction, 30 min daily walking, review in 10 days.',
-      followUpAdvice: 'Follow up after 10 days with lab reports and BP log.',
-      updatedAt: '2026-09-28T11:00:00.000Z',
-    },
-  },
-  {
-    id: 'pat-2',
-    mrNumber: 'HK-000002',
-    name: 'Fatima Bibi',
-    fatherOrHusbandName: 'Muhammad Aslam (Husband)',
-    age: 34,
-    dob: '1992-08-20',
-    gender: 'Female',
-    phone: '+92 333 1122334',
-    whatsapp: '+923331122334',
-    address: 'Flat 204, Royal Heights, DHA Phase 5',
-    city: 'Lahore',
-    email: 'fatima.aslam@example.com',
-    bloodGroup: 'O+',
-    emergencyContact: '+92 333 5566778 (Husband)',
-    registrationDate: '2026-09-20T14:15:00.000Z',
-    notes: 'Seasonal allergic rhinitis, dyspepsia.',
-    allergies: [],
-    medicalHistory: {
-      chiefComplaint: 'Epigastric burning pain, sour burping after meals',
-      symptoms: 'Heartburn, bloating, nausea',
-      pastMedicalHistory: 'GERD, seasonal allergies',
-      surgicalHistory: 'None',
-      drugAllergies: 'None known',
-      currentMedicines: 'Occasional antacid syrups',
-      familyHistory: 'Non-contributory',
-      socialHistory: 'Takes tea 4 cups daily, spicy diet',
-      examination: 'Mild epigastric tenderness, no organomegaly',
-      diagnosis: 'Gastroesophageal Reflux Disease (GERD) / Dyspepsia',
-      investigations: 'Complete Blood Count, Stool for H. Pylori Ag if symptoms persist',
-      doctorNotes: 'Prescribed PPI course for 2 weeks with dietary counseling.',
-      followUpAdvice: 'Avoid fatty food, tea, and spicy curries. Walk after dinner.',
-      updatedAt: '2026-09-25T16:30:00.000Z',
-    },
-  },
-  {
-    id: 'pat-3',
-    mrNumber: 'HK-000003',
-    name: 'Zubair Ahmed',
-    fatherOrHusbandName: 'Ghulam Rasool',
-    age: 58,
-    dob: '1968-11-05',
-    gender: 'Male',
-    phone: '+92 300 7766554',
-    whatsapp: '+923007766554',
-    address: 'Mohallah Islamia, Old City',
-    city: 'Lahore',
-    email: 'zubair.ahmed@example.com',
-    bloodGroup: 'A+',
-    emergencyContact: '+92 312 9988776',
-    registrationDate: '2026-09-29T10:00:00.000Z',
-    notes: 'Type 2 Diabetes Mellitus for 8 years.',
-    allergies: ['Sulfa drugs'],
-    medicalHistory: {
-      chiefComplaint: 'Bilateral knee pain, increased thirst',
-      symptoms: 'Joint stiffness in morning, polyuria',
-      pastMedicalHistory: 'Type 2 Diabetes Mellitus, Osteoarthritis',
-      surgicalHistory: 'None',
-      drugAllergies: 'Sulfonamides',
-      currentMedicines: 'Glucophage 500mg BD',
-      familyHistory: 'Strong diabetic history',
-      socialHistory: 'Smoker (5 cigs/day)',
-      examination: 'Knee crepitus positive, random blood sugar 210 mg/dL',
-      diagnosis: 'Suboptimally controlled T2DM, Bilateral Knee Osteoarthritis',
-      investigations: 'HbA1c, Serum Uric Acid, X-Ray Both Knees (AP/Lat)',
-      doctorNotes: 'Encouraged smoking cessation and physical physiotherapy exercises.',
-      followUpAdvice: 'Follow up in 2 weeks with HbA1c and Knee X-ray.',
-      updatedAt: '2026-09-29T10:30:00.000Z',
-    },
-  },
-];
+const INITIAL_PATIENTS: Patient[] = [];
 
-const INITIAL_PRESCRIPTIONS: Prescription[] = [
-  {
-    id: 'rx-1',
-    prescriptionNumber: 'RX-2026-0001',
-    patientId: 'pat-1',
-    patientName: 'Muhammad Tariq',
-    patientMrNumber: 'HK-000001',
-    patientAge: 48,
-    patientGender: 'Male',
-    patientPhone: '+92 321 4455667',
-    date: '2026-09-28',
-    doctorName: 'Dr. Haroon Kibriya',
-    doctorQualification: 'MBBS, FCPS (Medicine), MRCGP (Int)',
-    doctorSpecialty: 'Consultant Physician & Family Medicine Specialist',
-    clinicName: 'HK Clinic & Healthcare Centre',
-    chiefComplaint: 'Occipital headache and elevated blood pressure',
-    vitals: {
-      bp: '145/92 mmHg',
-      pulse: '78 bpm',
-      weight: '82 kg',
-      temperature: '98.4 F',
-      spo2: '98%',
-    },
-    examination: 'Chest clear bilaterally, S1 S2 normal, no peripheral edema.',
-    diagnosis: 'Uncontrolled Hypertension, Tension Headache',
-    investigations: 'Lipid Profile, Serum Creatinine, Fasting Blood Sugar',
-    medicines: [
-      {
-        id: 'med-item-1',
-        brandName: 'Concor',
-        genericName: 'Bisoprolol Fumarate',
-        strength: '5mg',
-        dosageForm: 'Tablet',
-        frequency: '1-0-0 (Once daily)',
-        duration: '1 Month',
-        route: 'Oral',
-        instructions: 'صبح ناشتے کے بعد روزانہ ایک گولی لیں',
-        quantity: '30 Tablets',
-        notes: 'Do not discontinue abruptly',
-      },
-      {
-        id: 'med-item-2',
-        brandName: 'Panadol',
-        genericName: 'Paracetamol',
-        strength: '500mg',
-        dosageForm: 'Tablet',
-        frequency: '1-1-1 (SOS / When needed)',
-        duration: '5 Days',
-        route: 'Oral',
-        instructions: 'درد یا سر درد کی صورت میں ضرورت کے وقت لیں',
-        quantity: '10 Tablets',
-        notes: 'Max 6 tablets in 24 hours',
-      },
-      {
-        id: 'med-item-3',
-        brandName: 'Risek',
-        genericName: 'Omeprazole',
-        strength: '40mg',
-        dosageForm: 'Capsule',
-        frequency: '1-0-0 (Before breakfast)',
-        duration: '14 Days',
-        route: 'Oral',
-        instructions: 'صبح نہار منہ ناشتے سے آدھا گھنٹہ پہلے لیں',
-        quantity: '14 Capsules',
-        notes: 'Take with full glass of water',
-      },
-    ],
-    advice: 'Daily 30 min brisk walk. Restrict dietary salt. Maintain a daily BP diary.',
-    followUpDate: '2026-10-08',
-    verificationCode: 'HK-VER-2026-9482',
-    templateType: 'builtin',
-    pageSetup: DEFAULT_PAGE_SETUP,
-    versions: [
-      {
-        version: 1,
-        timestamp: '2026-09-28T11:15:00.000Z',
-        modifiedBy: 'Dr. Haroon Kibriya',
-        diagnosis: 'Uncontrolled Hypertension, Tension Headache',
-        clinicalNotes: 'Initial consultation and therapy initiation',
-        advice: 'Daily 30 min brisk walk. Restrict dietary salt.',
-        medicines: [
-          {
-            id: 'med-item-1',
-            brandName: 'Concor',
-            genericName: 'Bisoprolol Fumarate',
-            strength: '5mg',
-            dosageForm: 'Tablet',
-            frequency: '1-0-0 (Once daily)',
-            duration: '1 Month',
-            route: 'Oral',
-            instructions: 'صبح ناشتے کے بعد روزانہ ایک گولی لیں',
-            quantity: '30 Tablets',
-          },
-        ],
-      },
-    ],
-    createdAt: '2026-09-28T11:15:00.000Z',
-    updatedAt: '2026-09-28T11:15:00.000Z',
-    createdBy: 'Dr. Haroon Kibriya',
-  },
-];
+const INITIAL_PRESCRIPTIONS: Prescription[] = [];
 
-const INITIAL_FEE_RECEIPTS: FeeReceipt[] = [
-  {
-    id: 'rec-1',
-    receiptNumber: 'REC-2026-0001',
-    date: '2026-09-28',
-    patientId: 'pat-1',
-    patientName: 'Muhammad Tariq',
-    patientMrNumber: 'HK-000001',
-    doctorName: 'Dr. Haroon Kibriya',
-    consultationFee: 2000,
-    discount: 200,
-    total: 1800,
-    paidAmount: 1800,
-    balance: 0,
-    paymentMethod: 'Cash',
-    notes: 'Routine specialist consultation with vitals check',
-    verificationCode: 'REC-VER-001',
-    createdAt: '2026-09-28T11:30:00.000Z',
-  },
-  {
-    id: 'rec-2',
-    receiptNumber: 'REC-2026-0002',
-    date: '2026-09-29',
-    patientId: 'pat-3',
-    patientName: 'Zubair Ahmed',
-    patientMrNumber: 'HK-000003',
-    doctorName: 'Dr. Haroon Kibriya',
-    consultationFee: 2000,
-    discount: 0,
-    total: 2000,
-    paidAmount: 2000,
-    balance: 0,
-    paymentMethod: 'Bank',
-    notes: 'Diabetic and joint review',
-    verificationCode: 'REC-VER-002',
-    createdAt: '2026-09-29T10:45:00.000Z',
-  },
-];
+const INITIAL_FEE_RECEIPTS: FeeReceipt[] = [];
 
-const INITIAL_PROCEDURE_RECEIPTS: ProcedureReceipt[] = [
-  {
-    id: 'prc-1',
-    receiptNumber: 'PRC-2026-0001',
-    date: '2026-09-25',
-    patientId: 'pat-2',
-    patientName: 'Fatima Bibi',
-    patientMrNumber: 'HK-000002',
-    doctorName: 'Dr. Haroon Kibriya',
-    procedures: [
-      {
-        id: 'proc-1',
-        name: 'Nebulization & Inhalation Therapy',
-        charges: 800,
-        discount: 0,
-        notes: 'Duolin + Clenil administered',
-      },
-      {
-        id: 'proc-2',
-        name: 'Blood Sugar & Vitals Screening',
-        charges: 400,
-        discount: 100,
-        notes: 'Glucometer spot check',
-      },
-    ],
-    totalCharges: 1200,
-    totalDiscount: 100,
-    netPayable: 1100,
-    paidAmount: 1100,
-    balance: 0,
-    paymentMethod: 'Cash',
-    notes: 'Emergency allergic broncho-spasm stabilization',
-    verificationCode: 'PRC-VER-001',
-    createdAt: '2026-09-25T17:00:00.000Z',
-  },
-];
+const INITIAL_PROCEDURE_RECEIPTS: ProcedureReceipt[] = [];
 
-const INITIAL_APPOINTMENTS: Appointment[] = [
-  {
-    id: 'apt-1',
-    appointmentNumber: 'APT-2026-01',
-    patientId: 'pat-1',
-    patientName: 'Muhammad Tariq',
-    patientMrNumber: 'HK-000001',
-    patientPhone: '+92 321 4455667',
-    doctorName: 'Dr. Haroon Kibriya',
-    date: new Date().toISOString().split('T')[0], // Today
-    timeSlot: '05:00 PM',
-    type: 'In-Clinic',
-    status: 'Confirmed',
-    reason: 'Follow-up for BP evaluation & lab review',
-    feeAmount: 2000,
-    isPaid: true,
-    createdAt: '2026-09-30T10:00:00.000Z',
-  },
-  {
-    id: 'apt-2',
-    appointmentNumber: 'APT-2026-02',
-    patientId: 'pat-2',
-    patientName: 'Fatima Bibi',
-    patientMrNumber: 'HK-000002',
-    patientPhone: '+92 333 1122334',
-    doctorName: 'Dr. Haroon Kibriya',
-    date: new Date().toISOString().split('T')[0], // Today
-    timeSlot: '06:30 PM',
-    type: 'Online Consultation',
-    status: 'Pending',
-    reason: 'Review acid reflux symptoms and medicine response',
-    feeAmount: 1500,
-    isPaid: false,
-    createdAt: '2026-10-01T08:00:00.000Z',
-  },
-  {
-    id: 'apt-3',
-    appointmentNumber: 'APT-2026-03',
-    patientId: 'pat-3',
-    patientName: 'Zubair Ahmed',
-    patientMrNumber: 'HK-000003',
-    patientPhone: '+92 300 7766554',
-    doctorName: 'Dr. Haroon Kibriya',
-    date: new Date(Date.now() + 86400000).toISOString().split('T')[0], // Tomorrow
-    timeSlot: '07:15 PM',
-    type: 'In-Clinic',
-    status: 'Confirmed',
-    reason: 'Review HbA1c and Knee joint X-ray reports',
-    feeAmount: 2000,
-    isPaid: false,
-    createdAt: '2026-10-01T09:00:00.000Z',
-  },
-];
+const INITIAL_APPOINTMENTS: Appointment[] = [];
 
 const INITIAL_AUDIT_LOGS: AuditLogEntry[] = [
   {
@@ -716,6 +386,22 @@ export function initializeClinicDatabase(): void {
   if (!localStorage.getItem(STORAGE_KEYS.MEDICINES)) {
     setStorageItem(STORAGE_KEYS.MEDICINES, INITIAL_MEDICINES);
   }
+
+  // Automatically purge demo patients if present
+  const purgeVersion = 'hk_clinic_patients_cleared_v1';
+  if (!localStorage.getItem(purgeVersion)) {
+    const existing = getStorageItem<Patient[]>(STORAGE_KEYS.PATIENTS, []);
+    const hasDemo = existing.some(p => p.id === 'pat-1' || p.id === 'pat-2' || p.id === 'pat-3' || p.mrNumber === 'HK-000001');
+    if (hasDemo) {
+      setStorageItem(STORAGE_KEYS.PATIENTS, []);
+      setStorageItem(STORAGE_KEYS.PRESCRIPTIONS, []);
+      setStorageItem(STORAGE_KEYS.FEE_RECEIPTS, []);
+      setStorageItem(STORAGE_KEYS.PROCEDURE_RECEIPTS, []);
+      setStorageItem(STORAGE_KEYS.APPOINTMENTS, []);
+    }
+    localStorage.setItem(purgeVersion, 'true');
+  }
+
   if (!localStorage.getItem(STORAGE_KEYS.PATIENTS)) {
     setStorageItem(STORAGE_KEYS.PATIENTS, INITIAL_PATIENTS);
   }
@@ -810,6 +496,14 @@ export const PatientRepository = {
     setStorageItem(STORAGE_KEYS.PATIENTS, filtered);
     AuditRepository.log(currentUser, 'PATIENT_DELETED', `Deleted patient record: ${target.name} (${target.mrNumber})`);
     return true;
+  },
+  clearAll(currentUser: string = 'Doctor'): void {
+    setStorageItem(STORAGE_KEYS.PATIENTS, []);
+    setStorageItem(STORAGE_KEYS.PRESCRIPTIONS, []);
+    setStorageItem(STORAGE_KEYS.FEE_RECEIPTS, []);
+    setStorageItem(STORAGE_KEYS.PROCEDURE_RECEIPTS, []);
+    setStorageItem(STORAGE_KEYS.APPOINTMENTS, []);
+    AuditRepository.log(currentUser, 'PATIENTS_CLEARED', 'All patient records and associated clinical data have been deleted.');
   },
 };
 

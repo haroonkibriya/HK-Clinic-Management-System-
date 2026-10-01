@@ -15,6 +15,7 @@ import {
   Printer,
   ChevronRight,
   Save,
+  Trash2,
 } from 'lucide-react';
 import { Patient, Prescription, FeeReceipt, ProcedureReceipt, Appointment, UserRole } from '../../types';
 import { PatientRepository } from '../../database/storage';
@@ -26,6 +27,7 @@ interface PatientDetailProps {
   onNewPrescription: (patient: Patient) => void;
   onNewReceipt: (patient: Patient) => void;
   onSelectPrescription: (rx: Prescription) => void;
+  onDeletePatient?: (patient: Patient) => void;
   prescriptions: Prescription[];
   feeReceipts: FeeReceipt[];
   procedureReceipts: ProcedureReceipt[];
@@ -42,6 +44,7 @@ export const PatientDetail: React.FC<PatientDetailProps> = ({
   onNewPrescription,
   onNewReceipt,
   onSelectPrescription,
+  onDeletePatient,
   prescriptions,
   feeReceipts,
   procedureReceipts,
@@ -100,6 +103,25 @@ export const PatientDetail: React.FC<PatientDetailProps> = ({
           </button>
 
           <div className="flex items-center gap-2">
+            {onDeletePatient && (
+              <button
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    isUrdu
+                      ? `کیا آپ واقعی ${patient.name} (${patient.mrNumber}) کا ریکارڈ ڈیلیٹ کرنا چاہتے ہیں؟`
+                      : `Are you sure you want to delete patient ${patient.name} (${patient.mrNumber})?`
+                  );
+                  if (confirmed) {
+                    onDeletePatient(patient);
+                  }
+                }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-rose-200 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 transition"
+                title="Delete Patient"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{isUrdu ? 'ڈیلیٹ کریں' : 'Delete'}</span>
+              </button>
+            )}
             <button
               onClick={() => onEditPatient(patient)}
               className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"

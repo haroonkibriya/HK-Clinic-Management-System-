@@ -8,6 +8,7 @@ import {
   Eye,
   ChevronRight,
   Filter,
+  Trash2,
 } from 'lucide-react';
 import { Patient, UserRole } from '../../types';
 
@@ -17,6 +18,8 @@ interface PatientListProps {
   onNewPatient: () => void;
   onNewPrescription: (patient: Patient) => void;
   onNewReceipt: (patient: Patient) => void;
+  onDeletePatient?: (patient: Patient) => void;
+  onDeleteAllPatients?: () => void;
   isUrdu: boolean;
   role: UserRole;
 }
@@ -27,6 +30,8 @@ export const PatientList: React.FC<PatientListProps> = ({
   onNewPatient,
   onNewPrescription,
   onNewReceipt,
+  onDeletePatient,
+  onDeleteAllPatients,
   isUrdu,
   role,
 }) => {
@@ -78,7 +83,7 @@ export const PatientList: React.FC<PatientListProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* Gender filter */}
             <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs">
               <Filter className="w-3.5 h-3.5 text-slate-400 mx-1" />
@@ -96,6 +101,25 @@ export const PatientList: React.FC<PatientListProps> = ({
                 </button>
               ))}
             </div>
+
+            {/* Clear All Patients Button if any exist */}
+            {patients.length > 0 && onDeleteAllPatients && (
+              <button
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    isUrdu
+                      ? 'کیا آپ واقعی تمام رجسٹرڈ مریضوں کو ڈیلیٹ کرنا چاہتے ہیں؟'
+                      : 'Are you sure you want to delete all registered patients and start fresh?'
+                  );
+                  if (confirmed) onDeleteAllPatients();
+                }}
+                className="flex items-center gap-1 px-3 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold rounded-xl text-xs border border-rose-200 transition"
+                title="Delete all registered patients"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{isUrdu ? 'تمام ڈیلیٹ کریں' : 'Delete All'}</span>
+              </button>
+            )}
 
             {/* New Patient Registration Button */}
             <button
@@ -125,10 +149,10 @@ export const PatientList: React.FC<PatientListProps> = ({
       {filteredPatients.length === 0 ? (
         <div className="bg-white rounded-2xl p-8 text-center border border-slate-200">
           <p className="text-sm font-semibold text-slate-600">
-            {isUrdu ? 'کوئی مریض نہیں ملا' : 'No patients matched your search criteria.'}
+            {isUrdu ? 'کوئی مریض درج نہیں ہے' : 'No patients found in database.'}
           </p>
           <p className="text-xs text-slate-400 mt-1">
-            {isUrdu ? 'نیا مریض درج کرنے کے لیے بٹن دبائیں۔' : 'Try a different keyword or register a new patient.'}
+            {isUrdu ? 'اپنا پہلا مریض رجسٹر کرنے کے لیے بٹن دبائیں۔' : 'Ready for real patients. Click below to register your first patient.'}
           </p>
           <button
             onClick={onNewPatient}
@@ -166,9 +190,28 @@ export const PatientList: React.FC<PatientListProps> = ({
                       </p>
                     </div>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-lg border border-teal-200">
-                    {patient.mrNumber}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-lg border border-teal-200">
+                      {patient.mrNumber}
+                    </span>
+                    {onDeletePatient && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const confirmed = window.confirm(
+                            isUrdu
+                              ? `کیا آپ ${patient.name} (${patient.mrNumber}) کا ریکارڈ ڈیلیٹ کرنا چاہتے ہیں؟`
+                              : `Delete patient ${patient.name} (${patient.mrNumber})?`
+                          );
+                          if (confirmed) onDeletePatient(patient);
+                        }}
+                        className="p-1 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                        title="Delete patient"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Contact & Address line */}
