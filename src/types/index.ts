@@ -221,6 +221,10 @@ export interface ClinicSettings {
   googleMapsUrl: string;
   googleMapsCoordinates?: string;
   currency: string; // PKR, Rs.
+  adminPassword?: string; // App administration lock password
+  consultationFee?: number;
+  clinicTimings?: string;
+  clinicTimingsUrdu?: string;
   mrNumberPrefix: string; // e.g. HK-
   mrNumberDigits: number; // e.g. 6 -> HK-000001
   logoUrl?: string;

@@ -284,6 +284,56 @@ export const ClinicSettingsView: React.FC<ClinicSettingsViewProps> = ({
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono"
               />
             </div>
+
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">
+                App Administration Password (ایڈمن پاس ورڈ)
+              </label>
+              <input
+                type="text"
+                value={form.adminPassword || 'admin123'}
+                onChange={(e) => setForm({ ...form, adminPassword: e.target.value })}
+                placeholder="admin123"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono text-teal-800 font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">
+                Consultation Fee (PKR) (چیک اپ فیس)
+              </label>
+              <input
+                type="number"
+                value={form.consultationFee || 1500}
+                onChange={(e) => setForm({ ...form, consultationFee: Number(e.target.value) })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">
+                Clinic Timings (English)
+              </label>
+              <input
+                type="text"
+                value={form.clinicTimings || 'Mon - Sat: 5:00 PM - 9:00 PM'}
+                onChange={(e) => setForm({ ...form, clinicTimings: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">
+                کلینک کے اوقات (اردو)
+              </label>
+              <input
+                type="text"
+                dir="rtl"
+                value={form.clinicTimingsUrdu || 'پیر تا ہفتہ: شام 5:00 تا رات 9:00 بجے'}
+                onChange={(e) => setForm({ ...form, clinicTimingsUrdu: e.target.value })}
+                className="w-full bg-teal-50/50 border border-teal-200 rounded-lg p-2 font-urdu"
+              />
+            </div>
           </div>
 
           <div className="pt-3 border-t border-slate-200 flex justify-end">
