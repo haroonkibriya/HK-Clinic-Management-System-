@@ -506,6 +506,21 @@ export default function App() {
               )}
             </>
           )}
+
+          {/* App View Branding Footer */}
+          <div className="no-print mt-8 pt-4 pb-2 border-t border-slate-200 text-center text-[11px] text-slate-500">
+            <p>
+              Developed by <strong className="font-semibold text-slate-700">H.K Tech</strong>, A company by <strong className="font-semibold text-slate-700">Haroon Kibriya</strong>
+            </p>
+            <a
+              href="https://wa.me/923129223127"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-0.5 text-teal-600 hover:text-teal-700 font-medium transition"
+            >
+              Whatsapp +923129223127
+            </a>
+          </div>
         </main>
 
         {/* Android Material Bottom Navigation Bar */}
@@ -521,6 +536,22 @@ export default function App() {
           onOpenMoreMenu={() => setShowMoreDrawer(true)}
         />
       </div>
+
+      {/* GitHub Website View / Full Page Branding Footer */}
+      <footer className="no-print w-full py-3.5 px-4 text-center bg-slate-900 text-slate-400 text-xs border-t border-slate-800 shrink-0 select-none">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-xs">
+          <span>Developed by <strong className="text-white font-semibold">H.K Tech</strong>, A company by <strong className="text-white font-semibold">Haroon Kibriya</strong></span>
+          <span className="hidden sm:inline text-slate-600">•</span>
+          <a
+            href="https://wa.me/923129223127"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 font-medium transition"
+          >
+            Whatsapp +923129223127
+          </a>
+        </div>
+      </footer>
 
       {/* More / Menu Drawer Slide-out */}
       {showMoreDrawer && (
@@ -616,8 +647,18 @@ export default function App() {
                 </span>
               </button>
 
-              <div className="text-[10px] text-slate-400 text-center font-mono">
-                HK Clinic Offline System • Android First
+              <div className="pt-2 border-t border-slate-100 text-center text-[11px] text-slate-500 space-y-1">
+                <p>
+                  Developed by <strong className="font-semibold text-slate-700">H.K Tech</strong>, A company by <strong className="font-semibold text-slate-700">Haroon Kibriya</strong>
+                </p>
+                <a
+                  href="https://wa.me/923129223127"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-teal-600 hover:text-teal-700 font-semibold"
+                >
+                  Whatsapp +923129223127
+                </a>
               </div>
             </div>
           </div>
