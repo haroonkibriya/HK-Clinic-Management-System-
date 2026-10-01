@@ -25,7 +25,6 @@ import {
   UserRole,
   AuditLogEntry,
 } from './types';
-import { AndroidStatusBar } from './components/android/AndroidStatusBar';
 import { AndroidNavBar, ActiveTab } from './components/android/AndroidNavBar';
 import { OfflineIndicator } from './components/common/OfflineIndicator';
 import { PWAInstallButton } from './components/common/PWAInstallButton';
@@ -45,6 +44,8 @@ import { ReportsView } from './components/reports/ReportsView';
 import { ClinicSettingsView } from './components/settings/ClinicSettingsView';
 import { PatientPortalView } from './components/portal/PatientPortalView';
 import { LoginModal } from './components/auth/LoginModal';
+import { OnlineOfflineSyncModal } from './components/sync/OnlineOfflineSyncModal';
+import { useOnlineStatus } from './hooks/useOnlineStatus';
 import {
   Smartphone,
   Tablet,
@@ -60,6 +61,9 @@ import {
   Scissors,
   Calendar,
   Lock,
+  RefreshCw,
+  Cloud,
+  WifiOff,
 } from 'lucide-react';
 
 export default function App() {
@@ -96,6 +100,7 @@ export default function App() {
   const [currentUserName, setCurrentUserName] = useState<string>('Dr. Haroon Kibriya');
   const [activePatientId, setActivePatientId] = useState<string>(() => patients[0]?.id || '');
   const [isUrdu, setIsUrdu] = useState<boolean>(settings.language === 'ur');
+  const isOnline = useOnlineStatus();
 
   // Android Viewport Mode: Phone (420px), Tablet (768px), or Fullscreen
   const [viewportMode, setViewportMode] = useState<'phone' | 'tablet' | 'fullscreen'>('fullscreen');
@@ -118,6 +123,7 @@ export default function App() {
   const [receiptEditorType, setReceiptEditorType] = useState<'fee' | 'procedure'>('fee');
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [showMoreDrawer, setShowMoreDrawer] = useState(false);
+  const [showSyncModal, setShowSyncModal] = useState(false);
 
   // Refresh all state from storage
   const refreshAllData = () => {
@@ -155,7 +161,7 @@ export default function App() {
       dir={isUrdu ? 'rtl' : 'ltr'}
     >
       {/* Offline Status Alert */}
-      <OfflineIndicator />
+      <OfflineIndicator onOpenSyncModal={() => setShowSyncModal(true)} isUrdu={isUrdu} />
 
       {/* Top App Control Bar for Android preview & settings (hidden in print) */}
       <div className="no-print w-full bg-slate-900 text-white px-4 py-2 flex items-center justify-between text-xs shadow-md z-40 shrink-0">
@@ -243,12 +249,6 @@ export default function App() {
             : 'max-w-6xl min-h-screen shadow-lg'
         }`}
       >
-        {/* Realistic Android Status Bar */}
-        <AndroidStatusBar
-          appName="HK Clinic"
-          roleName={currentRole === 'doctor' ? 'Dr. Haroon' : currentRole === 'assistant' ? 'Staff' : 'Patient'}
-        />
-
         {/* Android App Top Header */}
         <div className="no-print bg-teal-700 text-white px-4 py-3 flex items-center justify-between shadow-xs select-none shrink-0">
           <div className="flex items-center gap-2.5">
@@ -266,6 +266,35 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Online / Offline Sync Center Trigger */}
+            <button
+              onClick={() => setShowSyncModal(true)}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition shadow-2xs ${
+                isOnline
+                  ? 'bg-teal-800/90 hover:bg-teal-900 text-teal-100 border-teal-500/40'
+                  : 'bg-amber-800/90 hover:bg-amber-900 text-amber-100 border-amber-400/50 animate-pulse'
+              }`}
+              title={
+                isOnline
+                  ? isUrdu
+                    ? 'آن لائن موڈ — سنک سینٹر کھولنے کے لیے دبائیں'
+                    : 'Online Mode — Click for Sync Center'
+                  : isUrdu
+                  ? 'آف لائن موڈ — سنک سینٹر کھولنے کے لیے دبائیں'
+                  : 'Offline Mode — Click for Sync Center'
+              }
+            >
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
+                }`}
+              />
+              <span className="text-[11px] font-medium hidden sm:inline">
+                {isOnline ? (isUrdu ? 'آن لائن' : 'Online') : (isUrdu ? 'آف لائن' : 'Offline')}
+              </span>
+              <RefreshCw className="w-3 h-3 text-teal-300" />
+            </button>
+
             <button
               onClick={() => setShowMoreDrawer(true)}
               className="p-1.5 rounded-xl bg-teal-800 hover:bg-teal-900 text-teal-100 transition"
@@ -364,6 +393,7 @@ export default function App() {
                     setReceiptEditorType('fee');
                     setShowReceiptEditor(true);
                   }}
+                  onOpenSync={() => setShowSyncModal(true)}
                   isUrdu={isUrdu}
                   role={currentRole}
                 />
@@ -594,6 +624,33 @@ export default function App() {
 
               {/* Navigation Links in Drawer */}
               <div className="space-y-1 text-xs font-semibold">
+                {/* Online / Offline Sync Center */}
+                <button
+                  onClick={() => {
+                    setShowMoreDrawer(false);
+                    setShowSyncModal(true);
+                  }}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-900 transition"
+                >
+                  <div className="flex items-center gap-2.5">
+                    {isOnline ? (
+                      <Cloud className="w-4 h-4 text-emerald-600" />
+                    ) : (
+                      <WifiOff className="w-4 h-4 text-amber-600" />
+                    )}
+                    <span>{isUrdu ? 'آن لائن / آف لائن سنک سینٹر' : 'Online & Offline Sync'}</span>
+                  </div>
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                      isOnline
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
+                    {isOnline ? 'Online' : 'Offline'}
+                  </span>
+                </button>
+
                 <button
                   onClick={() => {
                     setActiveTab('procedures');
@@ -767,6 +824,15 @@ export default function App() {
           isUrdu={isUrdu}
         />
       )}
+
+      {/* Online & Offline Sync Center Modal */}
+      <OnlineOfflineSyncModal
+        isOpen={showSyncModal}
+        onClose={() => setShowSyncModal(false)}
+        isUrdu={isUrdu}
+        currentUser={currentUserName}
+        onSyncComplete={refreshAllData}
+      />
     </div>
   );
 }

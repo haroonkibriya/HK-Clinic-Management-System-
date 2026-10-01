@@ -14,7 +14,11 @@ import {
   MapPin,
   ShieldCheck,
   Building,
+  RefreshCw,
+  Cloud,
+  WifiOff,
 } from 'lucide-react';
+import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import {
   Patient,
   Prescription,
@@ -36,6 +40,7 @@ interface DashboardViewProps {
   onNewPatient: () => void;
   onNewPrescription: (patient?: Patient) => void;
   onNewReceipt: (patient?: Patient) => void;
+  onOpenSync?: () => void;
   isUrdu: boolean;
   role: UserRole;
 }
@@ -51,9 +56,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNewPatient,
   onNewPrescription,
   onNewReceipt,
+  onOpenSync,
   isUrdu,
   role,
 }) => {
+  const isOnline = useOnlineStatus();
   const today = new Date().toISOString().split('T')[0];
 
   // Daily metrics
@@ -78,10 +85,23 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 text-white rounded-3xl p-4 sm:p-5 shadow-md relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-teal-900/60 text-teal-200 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-teal-600/40">
-                {isUrdu ? 'آف لائن کلینک سسٹم' : 'Android-First • Offline-Ready'}
-              </span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={onOpenSync}
+                className="inline-flex items-center gap-1.5 bg-teal-900/60 hover:bg-teal-900 active:scale-95 text-teal-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-teal-500/40 transition"
+                title="Open Online & Offline Sync Center"
+              >
+                <span className={`w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+                <span>
+                  {isOnline
+                    ? isUrdu
+                      ? 'آن لائن موڈ • کلاؤڈ سنک'
+                      : 'Online • Cloud Sync'
+                    : isUrdu
+                    ? 'آف لائن موڈ • لوکل ڈیٹا بیس'
+                    : 'Offline • Local DB'}
+                </span>
+              </button>
               <span className="text-teal-200 text-xs">
                 {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}
               </span>
@@ -126,6 +146,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <MapPin className="w-3.5 h-3.5 text-rose-300" />
               <span>{isUrdu ? 'نقشہ / لوکیشن' : 'Google Maps'}</span>
             </a>
+
+            {onOpenSync && (
+              <button
+                onClick={onOpenSync}
+                className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/15 hover:bg-white/25 active:scale-95 rounded-xl text-xs font-semibold border border-white/20 transition"
+                title="Online & Offline Sync Center"
+              >
+                {isOnline ? (
+                  <Cloud className="w-3.5 h-3.5 text-emerald-300" />
+                ) : (
+                  <WifiOff className="w-3.5 h-3.5 text-amber-300" />
+                )}
+                <span>{isUrdu ? 'سنک سینٹر' : 'Sync Center'}</span>
+              </button>
+            )}
           </div>
         </div>
 
