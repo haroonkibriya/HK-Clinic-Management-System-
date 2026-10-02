@@ -39,8 +39,8 @@ export const DEFAULT_PAGE_SETUP: PageSetupConfig = {
 };
 
 export const DEFAULT_CLINIC_SETTINGS: ClinicSettings = {
-  clinicName: 'HK Clinic & Healthcare Centre',
-  clinicNameUrdu: 'ایچ کے کلینک اینڈ ہیلتھ کیئر سینٹر',
+  clinicName: 'HK Clinic Management System',
+  clinicNameUrdu: 'ایچ کے کلینک مینجمنٹ سسٹم',
   tagline: 'Compassionate Care, Clinical Excellence',
   taglineUrdu: 'معیاری علاج اور دلی ہمدردی',
   doctorName: 'Dr. Haroon Kibriya',
@@ -774,7 +774,12 @@ export const AppointmentRepository = {
 
 export const SettingsRepository = {
   get(): ClinicSettings {
-    return getStorageItem<ClinicSettings>(STORAGE_KEYS.SETTINGS, DEFAULT_CLINIC_SETTINGS);
+    const s = getStorageItem<ClinicSettings>(STORAGE_KEYS.SETTINGS, DEFAULT_CLINIC_SETTINGS);
+    if (!s.clinicName || s.clinicName === 'HK Clinic & Healthcare Centre' || s.clinicName === 'Clinic App') {
+      s.clinicName = 'HK Clinic Management System';
+      s.clinicNameUrdu = 'ایچ کے کلینک مینجمنٹ سسٹم';
+    }
+    return s;
   },
   save(settings: ClinicSettings, currentUser: string = 'Doctor'): ClinicSettings {
     setStorageItem(STORAGE_KEYS.SETTINGS, settings);

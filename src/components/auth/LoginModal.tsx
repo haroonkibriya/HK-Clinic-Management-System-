@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShieldCheck, User, Stethoscope, Lock, Check } from 'lucide-react';
 import { UserRole, Patient } from '../../types';
 import { AuditRepository } from '../../database/storage';
+import { AuthService } from '../../services/authService';
 
 interface LoginModalProps {
   currentRole: UserRole;
@@ -30,13 +31,16 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedRole === 'doctor') {
+      AuthService.saveSession({ role: 'doctor', name: 'Dr. Haroon Kibriya', isLoggedIn: true });
       onSelectRole('doctor', 'Dr. Haroon Kibriya');
       AuditRepository.log('Dr. Haroon Kibriya', 'USER_LOGIN', 'Doctor session activated', 'doctor');
     } else if (selectedRole === 'assistant') {
+      AuthService.saveSession({ role: 'assistant', name: 'Clinic Assistant (Staff)', isLoggedIn: true });
       onSelectRole('assistant', 'Clinic Assistant (Staff)');
       AuditRepository.log('Clinic Assistant', 'USER_LOGIN', 'Assistant session activated', 'assistant');
     } else {
       const pat = patients.find((p) => p.id === selectedPatientId) || patients[0];
+      AuthService.saveSession({ role: 'patient', name: pat.name, patientId: pat.id, isLoggedIn: true });
       onSelectRole('patient', pat.name, pat.id);
       AuditRepository.log(pat.name, 'USER_LOGIN', `Patient portal opened for ${pat.name} (${pat.mrNumber})`, 'patient');
     }

@@ -76,8 +76,10 @@ export const PatientPortalView: React.FC<PatientPortalViewProps> = ({
 
   const handleCreateBooking = (e: React.FormEvent) => {
     e.preventDefault();
-    const newAppointment = AppointmentRepository.create(
+    const newAppointment = AppointmentRepository.save(
       {
+        id: `apt-${Date.now()}`,
+        appointmentNumber: `APT-${new Date().getFullYear()}-${(appointments.length + 1).toString().padStart(2, '0')}`,
         patientId: patient.id,
         patientName: patient.name,
         patientMrNumber: patient.mrNumber,
@@ -90,6 +92,7 @@ export const PatientPortalView: React.FC<PatientPortalViewProps> = ({
         reason: bookReason.trim() || 'General Consultation',
         feeAmount: settings.consultationFee || 1500,
         isPaid: false,
+        createdAt: new Date().toISOString(),
       },
       patient.name
     );

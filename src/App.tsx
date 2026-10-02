@@ -44,6 +44,8 @@ import { ReportsView } from './components/reports/ReportsView';
 import { ClinicSettingsView } from './components/settings/ClinicSettingsView';
 import { PatientPortalView } from './components/portal/PatientPortalView';
 import { LoginModal } from './components/auth/LoginModal';
+import { ClinicBrandedLogin } from './components/auth/ClinicBrandedLogin';
+import { AuthService } from './services/authService';
 import { OnlineOfflineSyncModal } from './components/sync/OnlineOfflineSyncModal';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import {
@@ -64,6 +66,7 @@ import {
   RefreshCw,
   Cloud,
   WifiOff,
+  LogOut,
 } from 'lucide-react';
 
 export default function App() {
@@ -96,9 +99,16 @@ export default function App() {
   );
 
   // User & UI State
-  const [currentRole, setCurrentRole] = useState<UserRole>('doctor');
-  const [currentUserName, setCurrentUserName] = useState<string>('Dr. Haroon Kibriya');
-  const [activePatientId, setActivePatientId] = useState<string>(() => patients[0]?.id || '');
+  const initialSession = AuthService.getSession();
+  const [currentRole, setCurrentRole] = useState<UserRole | null>(
+    () => initialSession?.role || null
+  );
+  const [currentUserName, setCurrentUserName] = useState<string>(
+    () => initialSession?.name || 'Dr. Haroon Kibriya'
+  );
+  const [activePatientId, setActivePatientId] = useState<string>(
+    () => initialSession?.patientId || patients[0]?.id || ''
+  );
   const [isUrdu, setIsUrdu] = useState<boolean>(settings.language === 'ur');
   const isOnline = useOnlineStatus();
 
@@ -152,6 +162,53 @@ export default function App() {
 
   const currentPatientUser =
     patients.find((p) => p.id === activePatientId) || patients[0];
+
+  // If user has not authenticated yet, display the official HK Clinic Management System branding & login page
+  if (!currentRole) {
+    return (
+      <div
+        className={`min-h-screen bg-slate-950 flex flex-col justify-between ${
+          isUrdu ? 'rtl' : 'ltr'
+        }`}
+        dir={isUrdu ? 'rtl' : 'ltr'}
+      >
+        <OfflineIndicator onOpenSyncModal={() => setShowSyncModal(true)} isUrdu={isUrdu} />
+        <ClinicBrandedLogin
+          settings={settings}
+          isUrdu={isUrdu}
+          onLoginSuccess={(session) => {
+            setCurrentRole(session.role);
+            setCurrentUserName(session.name);
+            if (session.role === 'patient') {
+              if (session.patientId) {
+                setActivePatientId(session.patientId);
+                const pat = patients.find((p) => p.id === session.patientId);
+                if (pat) setSelectedPatient(pat);
+              }
+              setActiveTab('portal');
+            } else {
+              setActiveTab('dashboard');
+            }
+          }}
+          onOpenPatientSelfService={(pat) => {
+            setCurrentRole('patient');
+            setCurrentUserName(pat.name);
+            setActivePatientId(pat.id);
+            setSelectedPatient(pat);
+            setActiveTab('portal');
+          }}
+          onToggleLanguage={() => setIsUrdu(!isUrdu)}
+        />
+        <OnlineOfflineSyncModal
+          isOpen={showSyncModal}
+          onClose={() => setShowSyncModal(false)}
+          isUrdu={isUrdu}
+          currentUser={currentUserName}
+          onSyncComplete={refreshAllData}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -257,7 +314,7 @@ export default function App() {
             </div>
             <div>
               <h2 className="font-extrabold text-sm leading-tight">
-                {isUrdu ? settings.clinicNameUrdu || 'ایچ کے کلینک' : settings.clinicName}
+                {isUrdu ? 'ایچ کے کلینک مینجمنٹ سسٹم' : 'HK Clinic Management System'}
               </h2>
               <span className="text-[10px] text-teal-200 font-medium">
                 {settings.doctorName} • {currentRole.toUpperCase()}
@@ -301,6 +358,17 @@ export default function App() {
               title="Menu Drawer"
             >
               <Menu className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => {
+                AuthService.clearSession();
+                setCurrentRole(null);
+              }}
+              className="p-1.5 rounded-xl bg-teal-800 hover:bg-teal-900 text-teal-100 transition"
+              title={isUrdu ? 'لاگ آؤٹ / پورٹل تبدیل کریں' : 'Logout / Switch Portal'}
+            >
+              <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -362,9 +430,13 @@ export default function App() {
               procedureReceipts={procedureReceipts}
               appointments={appointments}
               settings={settings}
-              onBookAppointment={() => setActiveTab('appointments')}
               onViewPrescription={(rx) => setViewingPrescription(rx)}
               onViewFeeReceipt={(rec) => setPrintReceiptData({ receipt: rec, type: 'fee' })}
+              onRefreshData={refreshAllData}
+              onLogout={() => {
+                AuthService.clearSession();
+                setCurrentRole(null);
+              }}
               isUrdu={isUrdu}
             />
           ) : (
@@ -718,6 +790,18 @@ export default function App() {
                 <span className="text-[10px] bg-teal-200 text-teal-800 px-2 py-0.5 rounded">
                   Change
                 </span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowMoreDrawer(false);
+                  AuthService.clearSession();
+                  setCurrentRole(null);
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold flex items-center justify-center gap-2 transition"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>{isUrdu ? 'لاگ آؤٹ / پورٹل تبدیل کریں' : 'Logout / Switch Portal'}</span>
               </button>
 
               <div className="pt-2 border-t border-slate-100 text-center text-[11px] text-slate-500 space-y-1">
