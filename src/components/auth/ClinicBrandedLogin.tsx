@@ -412,16 +412,6 @@ export const ClinicBrandedLogin: React.FC<ClinicBrandedLoginProps> = ({
         </div>
       </main>
 
-      {/* Footer Branding */}
-      <footer className="w-full bg-slate-950/80 border-t border-slate-800/80 px-4 py-3 text-center text-xs text-slate-500">
-        <p>
-          <strong className="text-slate-300">HK Clinic Management System</strong> • Professional EMR & Clinical Suite for {settings.doctorName}
-        </p>
-        <p className="text-[11px] text-slate-600 mt-0.5">
-          Developed by <strong>H.K Tech</strong> • {settings.address} • {settings.phone}
-        </p>
-      </footer>
-
       {/* Forgot Password Modal */}
       {showForgotModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs animate-in fade-in duration-150">
