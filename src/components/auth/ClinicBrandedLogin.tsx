@@ -9,9 +9,7 @@ import {
   Languages,
   CheckCircle2,
   AlertCircle,
-  Phone,
   MessageCircle,
-  MapPin,
   Clock,
   KeyRound,
   Building,
@@ -184,22 +182,6 @@ export const ClinicBrandedLogin: React.FC<ClinicBrandedLoginProps> = ({
                 </p>
               </div>
 
-              {/* Doctor Profile Summary */}
-              <div className="bg-teal-950/80 border border-teal-700/50 rounded-2xl p-3.5 space-y-1 text-xs">
-                <div className="flex items-center gap-2">
-                  <Stethoscope className="w-4 h-4 text-teal-400 shrink-0" />
-                  <span className="font-bold text-white text-sm">
-                    {isUrdu ? settings.doctorNameUrdu || 'ڈاکٹر ہارون کبریا' : settings.doctorName}
-                  </span>
-                </div>
-                <p className="text-[11px] text-teal-200 font-medium pl-6">
-                  {settings.doctorQualification}
-                </p>
-                <p className="text-[10px] text-teal-300/80 pl-6">
-                  {settings.doctorSpecialty} • Reg: {settings.registrationNumber}
-                </p>
-              </div>
-
               {/* Trust Indicators */}
               <div className="space-y-2 text-xs text-slate-300 pt-2">
                 <div className="flex items-center gap-2">
@@ -214,18 +196,6 @@ export const ClinicBrandedLogin: React.FC<ClinicBrandedLoginProps> = ({
                   <HeartPulse className="w-4 h-4 text-rose-400 shrink-0" />
                   <span>Bilingual Nastaliq Urdu & English Letterheads</span>
                 </div>
-              </div>
-            </div>
-
-            {/* Clinic Contact Details at bottom */}
-            <div className="pt-6 mt-6 border-t border-teal-800/40 text-[11px] text-teal-200/80 space-y-1 relative z-10">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <span className="truncate">{settings.address}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <span>{settings.phone}</span>
               </div>
             </div>
           </div>
