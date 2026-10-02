@@ -285,16 +285,33 @@ export const OnlineOfflineSyncModal: React.FC<OnlineOfflineSyncModalProps> = ({
           {/* Quick Manual Export */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2">
             <span className="text-[11px] text-slate-500">
-              {isUrdu ? 'ڈیٹا کی محفوظ کاپی فائل میں حاصل کریں:' : 'Download offline backup copy:'}
+              {isUrdu ? 'ڈیٹا بیک اپ اور موبائل ایپ:' : 'Offline backup & Android APK:'}
             </span>
-            <button
-              type="button"
-              onClick={exportFullBackupFile}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition"
-            >
-              <Download className="w-3.5 h-3.5 text-teal-600" />
-              <span>{isUrdu ? 'آف لائن بیک اپ JSON' : 'Export Offline Backup JSON'}</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/HK_Clinic_Management_System.apk';
+                  link.download = 'HK_Clinic_Management_System.apk';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold rounded-xl text-xs transition"
+              >
+                <Smartphone className="w-3.5 h-3.5 text-emerald-600" />
+                <span>{isUrdu ? 'اینڈرائڈ APK ڈاؤنلوڈ' : 'Download Android APK'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={exportFullBackupFile}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition"
+              >
+                <Download className="w-3.5 h-3.5 text-teal-600" />
+                <span>{isUrdu ? 'آف لائن بیک اپ JSON' : 'Export Offline Backup JSON'}</span>
+              </button>
+            </div>
           </div>
         </div>
 

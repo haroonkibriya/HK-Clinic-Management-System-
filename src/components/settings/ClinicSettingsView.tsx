@@ -15,6 +15,8 @@ import {
   Clock,
   User,
   History,
+  Smartphone,
+  HelpCircle,
 } from 'lucide-react';
 import { ClinicSettings, AuditLogEntry, UserRole } from '../../types';
 import {
@@ -47,9 +49,21 @@ export const ClinicSettingsView: React.FC<ClinicSettingsViewProps> = ({
   const [activeSubTab, setActiveSubTab] = useState<'clinic' | 'doctor' | 'margins' | 'backup' | 'audit'>('clinic');
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [restoreStatus, setRestoreStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [showInstallGuide, setShowInstallGuide] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDownloadApk = () => {
+    const link = document.createElement('a');
+    link.href = '/HK_Clinic_Management_System.apk';
+    link.download = 'HK_Clinic_Management_System.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    AuditRepository.log(currentUser, 'APK_DOWNLOAD', 'Downloaded HK Clinic Management System Android APK package');
+    onRefresh();
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,11 +164,12 @@ export const ClinicSettingsView: React.FC<ClinicSettingsViewProps> = ({
           </button>
           <button
             onClick={() => setActiveSubTab('backup')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition ${
+            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition flex items-center gap-1.5 ${
               activeSubTab === 'backup' ? 'bg-white text-teal-800 shadow-2xs' : 'text-slate-600'
             }`}
           >
-            Backup & Restore
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>{isUrdu ? 'ایکسپورٹ، بیک اپ و اے پی کے' : 'Export, Backup & APK'}</span>
           </button>
           <button
             onClick={() => setActiveSubTab('audit')}
@@ -536,13 +551,96 @@ export const ClinicSettingsView: React.FC<ClinicSettingsViewProps> = ({
           <div>
             <h2 className="font-bold text-sm text-slate-800 flex items-center gap-2">
               <Database className="w-4 h-4 text-teal-600" />
-              <span>Offline Database Backup & Full Restore</span>
+              <span>Offline Database Backup, Restore & Android APK Export</span>
             </h2>
             <p className="text-slate-500 mt-1">
               Export and safeguard all patient records, medical histories, prescription archives,
-              receipts, medicines, and audit logs. The backup file is a portable JSON document that can
-              be restored on any Android device or future Windows desktop counterpart.
+              receipts, medicines, and audit logs. You can also download the standalone Android APK package
+              directly to your mobile or tablet for 100% offline hospital operations.
             </p>
+          </div>
+
+          {/* Android APK Download Card (Prominent Export Option) */}
+          <div className="bg-gradient-to-br from-teal-900 via-teal-800 to-emerald-900 text-white p-5 rounded-2xl border border-teal-700 shadow-md space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
+                  <Smartphone className="w-6 h-6 text-teal-200" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-teal-300 block">
+                    {isUrdu ? 'اینڈرائڈ انسٹالر پیکیج' : 'Android Application Package (APK)'}
+                  </span>
+                  <h3 className="text-base font-extrabold text-white">
+                    HK Clinic Management System APK
+                  </h3>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 self-start sm:self-auto">
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-200 font-bold px-2.5 py-1 rounded-full border border-emerald-400/30">
+                  v2.0.0 • Offline Ready
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs text-teal-100/90 leading-relaxed">
+              {isUrdu
+                ? 'اینڈرائڈ موبائل یا ٹیبلٹ کے لیے براہِ راست اے پی کے فائل ڈاؤنلوڈ کریں۔ یہ ایپ بغیر انٹرنیٹ مکمل طور پر آف لائن کام کرتی ہے۔'
+                : 'Download the standalone Android APK installer file directly to your Android smartphone or tablet. Runs 100% offline with local encrypted database and bilingual Urdu Nastaliq printing.'}
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 pb-1 text-[11px] text-teal-200/90 font-mono">
+              <div className="bg-white/10 px-2.5 py-1.5 rounded-lg">
+                <span className="text-teal-300 block text-[9px] uppercase font-sans">File Name</span>
+                <span className="font-semibold truncate block">HK_Clinic_Management_System.apk</span>
+              </div>
+              <div className="bg-white/10 px-2.5 py-1.5 rounded-lg">
+                <span className="text-teal-300 block text-[9px] uppercase font-sans">Target OS</span>
+                <span className="font-semibold block">Android 7.0 - 15+</span>
+              </div>
+              <div className="bg-white/10 px-2.5 py-1.5 rounded-lg">
+                <span className="text-teal-300 block text-[9px] uppercase font-sans">Offline Storage</span>
+                <span className="font-semibold block">SQLite / LocalDB</span>
+              </div>
+              <div className="bg-white/10 px-2.5 py-1.5 rounded-lg">
+                <span className="text-teal-300 block text-[9px] uppercase font-sans">Architecture</span>
+                <span className="font-semibold block">Universal APK</span>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                onClick={handleDownloadApk}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-extrabold rounded-xl text-xs shadow-lg transition"
+              >
+                <Download className="w-4 h-4" />
+                <span>{isUrdu ? 'اینڈرائڈ اے پی کے ڈاؤنلوڈ کریں (.apk)' : 'Download Android APK (.apk)'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowInstallGuide(!showInstallGuide)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 active:scale-95 text-teal-100 rounded-xl text-xs font-semibold border border-white/20 transition"
+              >
+                <HelpCircle className="w-3.5 h-3.5 text-teal-300" />
+                <span>{showInstallGuide ? (isUrdu ? 'ہدایات چھپائیں' : 'Hide Guide') : (isUrdu ? 'انسٹالیشن طریقہ کار' : 'Installation Guide')}</span>
+              </button>
+            </div>
+
+            {showInstallGuide && (
+              <div className="mt-3 p-3.5 bg-slate-950/60 rounded-xl border border-teal-500/30 text-xs text-teal-100 space-y-2 animate-in fade-in duration-150">
+                <span className="font-bold text-white block">
+                  {isUrdu ? 'اینڈرائڈ موبائل پر انسٹال کرنے کا آسان طریقہ:' : 'How to install the APK on Android:'}
+                </span>
+                <ol className="list-decimal list-inside space-y-1 text-[11px] text-teal-200">
+                  <li>{isUrdu ? 'اوپر دیے گئے بٹن سے APK ڈاؤنلوڈ کریں۔' : 'Tap the green "Download Android APK" button to save the file to your device.'}</li>
+                  <li>{isUrdu ? 'ڈاؤنلوڈ مکمل ہونے پر ڈاؤنلوڈ فولڈر یا نوٹیفکیشن سے فائل کھولیں۔' : 'Open the downloaded file from your browser downloads or Files manager.'}</li>
+                  <li>{isUrdu ? 'اگر سیکیورٹی پوچھے تو "Install Unknown Apps" کو آن کر کے "Install" پر ٹیپ کریں۔' : 'If prompted by Android security, enable "Allow from this source", then tap Install.'}</li>
+                  <li>{isUrdu ? 'ایپ مکمل طور پر انسٹال ہو جائے گی اور انٹرنیٹ کے بغیر بھی چلے گی۔' : 'Launch "HK Clinic Management System" — ready for 100% offline clinic workflows!'}</li>
+                </ol>
+              </div>
+            )}
           </div>
 
           {restoreStatus && (

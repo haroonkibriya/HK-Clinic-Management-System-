@@ -774,6 +774,27 @@ export default function App() {
                   <Settings className="w-4 h-4 text-teal-600" />
                   <span>{isUrdu ? 'کلینک ترتیبات و بیک اپ' : 'Settings & Backup'}</span>
                 </button>
+
+                <button
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = '/HK_Clinic_Management_System.apk';
+                    link.download = 'HK_Clinic_Management_System.apk';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setShowMoreDrawer(false);
+                  }}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-semibold border border-emerald-200 transition"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Smartphone className="w-4 h-4 text-emerald-600" />
+                    <span>{isUrdu ? 'اینڈرائڈ ایپ ڈاؤنلوڈ (.apk)' : 'Download Android APK'}</span>
+                  </div>
+                  <span className="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded font-bold">
+                    APK
+                  </span>
+                </button>
               </div>
             </div>
 
